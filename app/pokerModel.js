@@ -86,10 +86,9 @@
     this.hasFourOfAKind = false;
     this.hasThreeOfAKind = false;
     this.hasPair = 0;
-    this.hasStraight = "";  //high card value
+    this.hasStraight = "0";  //highest card in straight
     this.hasFlush = false;
     this.sortedCardValues = [] || [14, 14, 14, 8, 8];
-
   }
   exports.Hand = Hand;
 
@@ -100,8 +99,11 @@
         throw new Error("missing target");
       }
       var cards = target.cards;
-      this.highCard = getHighCard(cards);
       var cardCounts = countCards(cards);
+      var cardSuits = getSuits(cards);
+      var sortedCards = cards.sort(sortCards);
+
+      this.highCard = getHighCard();
 
       for(var key in cardCounts) {
         if (cardCounts[key] === 4) {
@@ -114,6 +116,39 @@
           this.hasPair += 1;
         }
       }
+      this.hasStraight = findSequence(sortedCards);
+      for (var key in cardSuits) {
+        if (cardSuits[key] === 5) {
+          this.hasFlush = true;
+          break;
+        }
+      }
+
+      function findSequence(sortedCards) {
+        var sequence = 1;
+        console.log(sortedCards);
+        for(var i = 0; i < sortedCards.length; i++) {
+          console.log("left: " + (sortedCards[i].pipCount + 1));
+          console.log("right: " + sortedCards[i + 1].pipCount)
+          console.log("i = " + i);
+          if (i === 2 && sequence < 2 ) {
+            return "0";
+          }
+          if ((sortedCards[i].pipCount + 1) == sortedCards[i + 1].pipCount) {
+            sequence++;
+            if (sequence === 4) {
+              console.log("sequential pips: " + sortedCards[i + 1].pipStr);
+              return sortedCards[i + 1].pipStr;
+            }
+          } else {
+            //not sequential
+            console.log("not sequential");
+            sequence = 1;
+          }
+          console.log("sequence: " + sequence);
+        }
+          return "0";
+      }
 
       function countCards(cards) {
         var counts = {};
@@ -125,9 +160,19 @@
         return counts;
       }
 
-      function getHighCard(cards) {
-        var sortedCards = cards.sort(sortCards);
-        return sortedCards[cards.length - 1].pipStr;
+      function getSuits(cards) {
+        var suits = {};
+
+        for(var i = 0; i< cards.length; i++) {
+            var s = cards[i].suit;
+            suits[s] = suits[s] ? suits[s]+1 : 1;
+        }
+        return suits;
+      }
+
+      function getHighCard() {
+        var len = sortedCards.length;
+        return sortedCards[len - 1].pipStr;
       }
 
       function getNumericValueOfCard(cardDeets) {
