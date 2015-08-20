@@ -1,81 +1,5 @@
 (function(exports) {
   "use strict";
-  function Deck() {
-    this.deck = [
-      new Card("A", 14, "D"),
-      new Card("2", 2, "D"),
-      new Card("3", 3, "D"),
-      new Card("4", 4, "D"),
-      new Card("5", 5, "D"),
-      new Card("6", 6, "D"),
-      new Card("7", 7, "D"),
-      new Card("8", 8, "D"),
-      new Card("9", 9, "D"),
-      new Card("10", 10, "D"),
-      new Card("J", 11, "D"),
-      new Card("Q", 12, "D"),
-      new Card("K", 13, "D"),
-      new Card("A", 14, "D"),
-      new Card("2", 2, "H"),
-      new Card("3", 3, "H"),
-      new Card("4", 4, "H"),
-      new Card("5", 5, "H"),
-      new Card("6", 6, "H"),
-      new Card("7", 7, "H"),
-      new Card("8", 8, "H"),
-      new Card("9", 9, "H"),
-      new Card("10", 10, "H"),
-      new Card("J", 11, "H"),
-      new Card("Q", 12, "H"),
-      new Card("K", 13, "H"),
-      new Card("A", 14, "H"),
-      new Card("2", 2, "C"),
-      new Card("3", 3, "C"),
-      new Card("4", 4, "C"),
-      new Card("5", 5, "C"),
-      new Card("6", 6, "C"),
-      new Card("7", 7, "C"),
-      new Card("8", 8, "C"),
-      new Card("9", 9, "C"),
-      new Card("10", 10, "C"),
-      new Card("J", 11, "C"),
-      new Card("Q", 12, "C"),
-      new Card("K", 13, "C"),
-      new Card("A", 14, "C"),
-      new Card("2", 2, "S"),
-      new Card("3", 3, "S"),
-      new Card("4", 4, "S"),
-      new Card("5", 5, "S"),
-      new Card("6", 6, "S"),
-      new Card("7", 7, "S"),
-      new Card("8", 8, "S"),
-      new Card("9", 9, "S"),
-      new Card("10", 10, "S"),
-      new Card("J", 11, "S"),
-      new Card("Q", 12, "S"),
-      new Card("K", 13, "S")
-    ]
-  }
-  exports.Deck = Deck;
-
-  Deck.prototype = {
-    shuffle: function() {
-
-    },
-    deal: function() {
-      var hands = [];
-      return hands;
-    }
-
-  };
-
-  function Card(pipStr, pipCount, suit) {
-    this.pipStr = pipStr;
-    this.pipCount = pipCount;
-    this.suit = suit;
-  }
-  exports.Card = Card;
-
   function Hand(cardArray) {
     this.cards = cardArray || [new Card("A", 14, "S")
                               , new Card("A", 14, "D")
@@ -126,26 +50,19 @@
 
       function findSequence(sortedCards) {
         var sequence = 1;
-        console.log(sortedCards);
         for(var i = 0; i < sortedCards.length; i++) {
-          console.log("left: " + (sortedCards[i].pipCount + 1));
-          console.log("right: " + sortedCards[i + 1].pipCount)
-          console.log("i = " + i);
           if (i === 2 && sequence < 2 ) {
             return "0";
           }
           if ((sortedCards[i].pipCount + 1) == sortedCards[i + 1].pipCount) {
             sequence++;
             if (sequence === 4) {
-              console.log("sequential pips: " + sortedCards[i + 1].pipStr);
               return sortedCards[i + 1].pipStr;
             }
           } else {
             //not sequential
-            console.log("not sequential");
             sequence = 1;
           }
-          console.log("sequence: " + sequence);
         }
           return "0";
       }
@@ -247,5 +164,5 @@
 
       return this;
     }
-  };
+};
 })(this);

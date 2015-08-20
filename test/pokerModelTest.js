@@ -141,7 +141,6 @@ describe("Hand", function() {
       expect(result.hasStraight).to.equal("J");
     });
     it("without flush, hasFlush should be false", function() {
-      console.log("no flush");
       var cardArray = [new Card("10", 10, "S")
                                 , new Card("9", 9, "D")
                                 , new Card("6", 6, "H")
@@ -153,7 +152,6 @@ describe("Hand", function() {
       expect(result.hasFlush).to.equal(false);
     });
     it("with flush, hasFlush should be true", function() {
-      console.log("with flush");
       var cardArray = [new Card("10", 10, "S")
                                 , new Card("9", 9, "S")
                                 , new Card("6", 6, "S")
@@ -163,6 +161,108 @@ describe("Hand", function() {
 
       result = hand.analyze(hand);
       expect(result.hasFlush).to.equal(true);
+    });
+  });
+});
+describe("Card", function() {
+  describe("constructor", function() {
+    it("should throw if any params are null", function() {
+      expect(function() {
+        (new Card("9", 9));
+      }).to.throw(Error);
+      expect(function() {
+        (new Card(0, 9, "S"));
+      }).to.throw(Error);
+      expect(function() {
+        (new Card("9", 0, "S"));
+      }).to.throw(Error);
+    });
+    it("should throw if any params are out of range", function() {
+      expect(function() {
+        (new Card("11", 11, "S"));
+      }).to.throw(Error);
+      expect(function() {
+        (new Card("J", 22, "S"));
+      }).to.throw(Error);
+      expect(function() {
+        (new Card("J", 11, "X"));
+      }).to.throw(Error);
+    });
+    it("should not throw if all params in range and not null", function() {
+      expect(function() {
+        (new Card("9", 9, "S"));
+      }).to.not.throw(Error);
+    });
+  });
+});
+describe("Player", function() {
+  describe("constructor", function() {
+    it("with no player name, should have default player name", function() {
+      var expectedName = "Player";
+      var player = new Player();
+      expect(player.playerName).to.equal(expectedName);
+    });
+    it("should set player name", function() {
+      var expectedName = "Any Player";
+      var player = new Player(expectedName);
+      expect(player.playerName).to.equal(expectedName);
+    });
+    it("should contain a default hand", function() {
+      var expectedName = "Any Player";
+      var expectedHand = [new Card("A", 14, "S")
+                                , new Card("A", 14, "D")
+                                , new Card("8", 8, "S")
+                                , new Card("8", 8, "D")
+                                , new Card("8", 8, "H")];
+      var player = new Player(expectedName);
+      expect(player.hand.cards).to.deep.equal(expectedHand);
+    });
+    it("should set given hand", function() {
+      var expectedName = "Any Player";
+      var expectedHand = [new Card("K", 13, "D")
+                                , new Card("8", 8, "S")
+                                , new Card("9", 9, "S")
+                                , new Card("6", 6, "C")
+                                , new Card("8", 8, "C")];
+      var player = new Player(expectedName, expectedHand);
+      expect(player.hand.cards).to.deep.equal(expectedHand);
+    });
+  });
+});
+describe("Deck", function() {
+  describe("constructor", function() {
+    it("should have 52 cards in deck", function() {
+      var deck = new Deck();
+      var expectedNumberOfCards = 52;
+      expect(deck.deck.length).to.equal(expectedNumberOfCards);
+    });
+  });
+  describe("shuffle", function() {
+    it("should have 52 cards in shuffled deck", function() {
+      //need a better test for shuffle, but what?
+      var deck = new Deck();
+      var expectedNumberOfCards = 52;
+
+      var result = deck.shuffle(deck.deck);
+
+      expect(deck.deck.length).to.equal(expectedNumberOfCards);
+    });
+  });
+  describe("deal", function() {
+    it("should return 2 hands of five cards each", function() {
+      var deck = new Deck();
+      var expectedNumberOfHands = 2;
+      var expectedSizeOfHands = 5;
+      console.log(deck.deck);
+      var shuffledDeck = deck.shuffle(deck.deck);
+      console.log(shuffledDeck);
+      var result = deck.deal(shuffledDeck);
+
+      expect(result.length).to.equal(expectedNumberOfHands);
+      expect(result[0].length).to.equal(expectedSizeOfHands);
+      expect(result[1].length).to.equal(expectedSizeOfHands);
+      console.log(result[0]);
+      console.log(result[1]);
     });
   });
 });
