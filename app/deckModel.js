@@ -61,12 +61,11 @@
   Deck.prototype = {
     shuffle: function(deck) {
       var currentIdx = deck.length - 1;
-      // console.log(currentIdx);
       var randIdx = 0;
       var tempVal;
+
       while(currentIdx > 0) {
         randIdx = Math.floor(Math.random() * currentIdx);
-        // console.log("random index: " + randIdx);
         currentIdx--;
 
         tempVal = deck[currentIdx];
@@ -76,24 +75,19 @@
       return deck;
     },
     deal: function(shuffledDeck) {
-      // console.log("shuffled deck before deal");
-      // console.log(shuffledDeck);
+
       var hands = [];
       var handSize = 5; //the game is 5-card stud
       var hand1 = [];
       var hand2 = [];
+
       for(var i = 0; i < handSize; i++) {
         hand1.push(shuffledDeck.shift());
         hand2.push(shuffledDeck.shift());
       }
-      // console.log(hand1);
-      // console.log(hand2);
-      // console.log("shuffled deck after deal");
-      // console.log(shuffledDeck);
+
       hands.push(hand1, hand2);
       return hands;
     }
-
   };
-
 })(this);

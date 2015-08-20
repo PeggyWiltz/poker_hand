@@ -253,16 +253,25 @@ describe("Deck", function() {
       var deck = new Deck();
       var expectedNumberOfHands = 2;
       var expectedSizeOfHands = 5;
-      console.log(deck.deck);
+
       var shuffledDeck = deck.shuffle(deck.deck);
-      console.log(shuffledDeck);
       var result = deck.deal(shuffledDeck);
 
       expect(result.length).to.equal(expectedNumberOfHands);
       expect(result[0].length).to.equal(expectedSizeOfHands);
       expect(result[1].length).to.equal(expectedSizeOfHands);
-      console.log(result[0]);
-      console.log(result[1]);
+
+    });
+  });
+});
+describe("Game", function() {
+  describe("constructor", function() {
+    it("should contain 2 players and one deck", function() {
+      var game = new Game();
+
+      expect(game.players).to.exist;
+      expect(game.players.length).to.equal(2);
+      expect(game.deck).to.exist;
     });
   });
 });
