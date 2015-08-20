@@ -1,0 +1,29 @@
+{
+  "name": "poker_hand",
+  "version": "1.0.0",
+  "description": "\"poker hand program\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PeggyWiltz/poker_hand.git"
+  },
+  "keywords": [
+    "\"poker\""
+  ],
+  "author": "\"Peggy Wiltz\"",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PeggyWiltz/poker_hand/issues"
+  },
+  "homepage": "https://github.com/PeggyWiltz/poker_hand",
+  "dependencies": {
+    "angular": "^1.4.4",
+    "chai": "^3.2.0",
+    "express": "^4.13.3",
+    "mocha": "^2.2.5",
+    "request": "^2.60.0"
+  }
+}
