@@ -6,7 +6,7 @@
                               , new Card("8", 8, "S")
                               , new Card("8", 8, "D")
                               , new Card("8", 8, "H")];
-    this.highCard = "";
+    this.highCard = {};
     this.hasFourOfAKind = false;
     this.hasThreeOfAKind = false;
     this.hasPair = 0;
@@ -50,7 +50,7 @@
 
       function findSequence(sortedCards) {
         var sequence = 1;
-        for(var i = 0; i < sortedCards.length; i++) {
+        for(var i = 0; i < sortedCards.length - 1; i++) {
           if (i === 2 && sequence < 2 ) {
             return "0";
           }
@@ -89,7 +89,7 @@
 
       function getHighCard() {
         var len = sortedCards.length;
-        return sortedCards[len - 1].pipStr;
+        return sortedCards[len - 1];
       }
 
       function getNumericValueOfCard(cardDeets) {

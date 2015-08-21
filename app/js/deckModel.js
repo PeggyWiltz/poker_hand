@@ -72,6 +72,7 @@
         deck[currentIdx] = deck[randIdx];
         deck[randIdx] = tempVal;
       }
+
       return deck;
     },
     deal: function(shuffledDeck) {

@@ -28,13 +28,12 @@ describe("Hand", function() {
                                 , new Card("10", 10, "S")];
       var hand = new Hand(cardArray);
 
-      expect(hand.highCard).to.equal("");
+      expect(hand.highCard).to.deep.equal({});
       expect(hand.hasFourOfAKind).to.equal(false);
       expect(hand.hasThreeOfAKind).to.equal(false);
       expect(hand.hasPair).to.equal(0);
       expect(hand.hasStraight).to.equal("0");
       expect(hand.hasFlush).to.equal(false);
-      expect(hand.highCard).to.equal("");
     });
   });
   describe("Analyze", function() {
@@ -44,11 +43,11 @@ describe("Hand", function() {
                                 , new Card("5", 5, "S")
                                 , new Card("A", 14, "S")
                                 , new Card("10", 10, "S")];
-      var expectedCardValue = "A";
+      var expectedCardValue = new Card("A", 14, "S");
       var hand = new Hand(cardArray);
 
       result = hand.analyze(hand);
-      expect(result.highCard).to.equal(expectedCardValue);
+      expect(result.highCard).to.deep.equal(expectedCardValue);
     });
     it("without any matches, all match properties should be false", function() {
       var cardArray = [new Card("4", 4, "S")
@@ -139,6 +138,17 @@ describe("Hand", function() {
 
       result = hand.analyze(hand);
       expect(result.hasStraight).to.equal("J");
+    });
+    it("with small straight in middle of list, hasStraight will be 0", function() {
+      var cardArray = [new Card("10", 10, "S")
+                                , new Card("9", 9, "D")
+                                , new Card("8", 8, "H")
+                                , new Card("8", 8, "C")
+                                , new Card("A", 14, "S")];
+      var hand = new Hand(cardArray);
+
+      result = hand.analyze(hand);
+      expect(result.hasStraight).to.equal("0");
     });
     it("without flush, hasFlush should be false", function() {
       var cardArray = [new Card("10", 10, "S")
@@ -267,11 +277,39 @@ describe("Deck", function() {
 describe("Game", function() {
   describe("constructor", function() {
     it("should contain 2 players and one deck", function() {
-      var game = new Game();
+      var game = new Game("White", "Black");
 
       expect(game.players).to.exist;
       expect(game.players.length).to.equal(2);
       expect(game.deck).to.exist;
+    });
+  });
+  describe("determineWinner", function() {
+    it("with all other values the same, should return correct winner for high card hands", function() {
+      var game = new Game("Blue", "Green");
+      var fakeHand1 = new Hand([new Card("K", 13, "D")
+                                , new Card("8", 8, "S")
+                                , new Card("9", 9, "S")
+                                , new Card("6", 6, "C")
+                                , new Card("2", 2, "C")]);
+      var fakeHand2 = new Hand([new Card("Q", 12, "D")
+                                , new Card("8", 8, "C")
+                                , new Card("9", 9, "D")
+                                , new Card("6", 6, "D")
+                                , new Card("2", 2, "S")]);
+      var player1 = game.players[0];
+      var player2 = game.players[1];
+      player1.hand = fakeHand1;
+      player2.hand = fakeHand2;
+
+      var result = game.determineWinner();
+      console.log("winner:");
+      console.log(result.hand.highCard.pipStr);
+      console.log("player 1:");
+      console.log(player1.hand.highCard.pipStr);
+      console.log("player 2:");
+      console.log(player2.hand.highCard.pipStr);
+      expect(result).to.deep.equal(player1);
     });
   });
 });
