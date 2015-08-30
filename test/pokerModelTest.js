@@ -285,7 +285,7 @@ describe("Game", function() {
     });
   });
   describe("determineWinner", function() {
-    it("with all other values the same, should return correct winner for high card hands", function() {
+    it("with all other values the same, should return player with highest card", function() {
       var game = new Game("Blue", "Green");
       var fakeHand1 = new Hand([new Card("K", 13, "D")
                                 , new Card("8", 8, "S")
@@ -303,12 +303,26 @@ describe("Game", function() {
       player2.hand = fakeHand2;
 
       var result = game.determineWinner();
-      console.log("winner:");
-      console.log(result.hand.highCard.pipStr);
-      console.log("player 1:");
-      console.log(player1.hand.highCard.pipStr);
-      console.log("player 2:");
-      console.log(player2.hand.highCard.pipStr);
+      expect(result).to.deep.equal(player1);
+    });
+    it("should return player with ", function() {
+      var game = new Game("Blue", "Green");
+      var fakeHand1 = new Hand([new Card("K", 13, "D")
+                                , new Card("8", 8, "S")
+                                , new Card("9", 9, "S")
+                                , new Card("6", 6, "C")
+                                , new Card("2", 2, "C")]);
+      var fakeHand2 = new Hand([new Card("Q", 12, "D")
+                                , new Card("8", 8, "C")
+                                , new Card("9", 9, "D")
+                                , new Card("6", 6, "D")
+                                , new Card("2", 2, "S")]);
+      var player1 = game.players[0];
+      var player2 = game.players[1];
+      player1.hand = fakeHand1;
+      player2.hand = fakeHand2;
+
+      var result = game.determineWinner();
       expect(result).to.deep.equal(player1);
     });
   });

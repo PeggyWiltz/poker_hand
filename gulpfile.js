@@ -33,11 +33,6 @@ gulp.task('sass:watch', function () {
   gulp.watch('./app/sass/**/*.scss', ['sass']);
 });
 
-gulp.task('assets', function () {
-    return gulp.src('./app/assets/**/*')
-    .pipe(gulp.dest('./public/assets'));
-});
-
 gulp.task('webpackdev', function() {
   return gulp.src('./app/js/**/*.js')
     .pipe(webpack({
@@ -67,4 +62,4 @@ gulp.task('copy:watch', function () {
   gulp.watch('./app/**/*.html', ['copy']);
 });
 
-gulp.task('build', ['copy', 'webpackdev', 'sass', 'assets' ]);
+gulp.task('build', ['copy', 'webpackdev', 'sass']);
